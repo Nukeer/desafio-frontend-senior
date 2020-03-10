@@ -1,0 +1,10 @@
+<div class="layout-sidebar" [ngClass]="{'layout-sidebar-active':app.mobileMenuActive}">
+  <ul class="layout-menu" (click)="app.hideMobileMenu($event)">
+    <li *ngFor="let list of listItem">
+      <a [routerLink]="[list.path]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <i [class]="list.icon"></i>
+        <span>{{list.label}}</span>
+      </a>
+    </li>
+  </ul>
+</div>
