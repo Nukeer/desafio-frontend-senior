@@ -1,1 +1,36 @@
-<p>list works!</p>
+<p-table
+  [columns]="cols"
+  [value]="list"
+  [scrollable]="true"
+  scrollHeight="200px"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{ col.header }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns; let i = index">
+        <ng-container *ngIf="col.field === 'quantidade'; else preco">
+          {{ formatQuantidade(rowData[col.field], i) }}
+        </ng-container>
+        <ng-template #preco>
+          <ng-container *ngIf="col.field === 'preco'; else data">
+            {{ formatPreco(rowData[col.field]) }}
+          </ng-container>
+        </ng-template>
+        <ng-template #data>
+          <ng-container *ngIf="col.field === 'dataValidade' || col.field === 'dataFabricacao'; else resto">
+            {{ formatData(rowData[col.field]) }}
+          </ng-container>
+        </ng-template>
+        <ng-template #resto>
+          {{ rowData[col.field] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

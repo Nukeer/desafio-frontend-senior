@@ -14,7 +14,7 @@ export class SideBarComponent implements OnInit {
   ngOnInit() {
     this.listItem = [
       { path: 'formulario', icon: '', label: 'Formulário' },
-      { path: 'listar', icon: '', label: 'Listagem' }
+      { path: 'listagem', icon: '', label: 'Listagem' }
     ];
   }
 }

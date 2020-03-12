@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class StorageService {
   constructor() {}
 
-  public saveItem(key: string, value: any) {
+  private _saveItem(key: string, value: string) {
     localStorage.setItem(key, value);
   }
 
@@ -15,9 +15,12 @@ export class StorageService {
   }
 
   public addItem(key: string, value: any) {
-    const arr = this.getItem(key);
+    let arr = this.getItem(key) as Array<any>;
+    if (!arr) {
+      arr = [];
+    }
     arr.push(value);
-    this.saveItem(key, arr);
+    this._saveItem(key, JSON.stringify(arr));
   }
 
   private removeItem(key: string, value: any) {}
