@@ -23,5 +23,7 @@ export class StorageService {
     this._saveItem(key, JSON.stringify(arr));
   }
 
-  private removeItem(key: string, value: any) {}
+  public newArrayItem(key: string, value: any){
+    this._saveItem(key, JSON.stringify(value));
+  }
 }

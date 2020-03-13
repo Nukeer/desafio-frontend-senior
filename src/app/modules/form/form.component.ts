@@ -4,6 +4,7 @@ import { CurrencyMaskConfig } from 'ngx-currency';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { getOptionsToCurrencyMask } from 'src/app/shared/validators/options-currency-mask';
 import { Formulario } from 'src/app/shared/interface/formulario';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface PDropdown {
   label: string;
@@ -20,7 +21,11 @@ export class FormComponent implements OnInit {
 
   unidadeMedida: PDropdown[];
 
-  constructor(private storageService: StorageService) {}
+  constructor(
+    private storageService: StorageService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -42,6 +47,13 @@ export class FormComponent implements OnInit {
       { label: 'Quilograma', value: 'kg' },
       { label: 'Unidade', value: 'un' }
     ];
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      const item = this.storageService.getItem('item')[id] as Formulario;
+      item.dataFabricacao = new Date(item.dataFabricacao);
+      item.dataValidade = new Date(item.dataValidade);
+      this.form.setValue(item);
+    }
   }
 
   // Valida se a data de fabricação é maior que a data de validade
@@ -76,7 +88,15 @@ export class FormComponent implements OnInit {
 
   save() {
     const value = this.form.value as Formulario;
-    this.storageService.addItem('item', value);
-    this.form.reset();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      const items = this.storageService.getItem('item');
+      items[id] = value;
+      this.storageService.newArrayItem('item', items);
+      this.router.navigate(['/listagem']);
+    } else {
+      this.storageService.addItem('item', value);
+      this.form.reset();
+    }
   }
 }

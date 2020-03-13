@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FormComponent } from './form.component';
 
-const routes: Routes = [{ path: '', component: FormComponent }];
+const routes: Routes = [
+  { path: '', component: FormComponent },
+  { path: ':id', component: FormComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

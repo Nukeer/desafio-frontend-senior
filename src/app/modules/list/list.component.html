@@ -1,8 +1,4 @@
-<p-table
-  [columns]="cols"
-  [value]="list"
-  [scrollable]="true"
->
+<p-table [columns]="cols" [value]="list" [scrollable]="true">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns">
@@ -10,8 +6,13 @@
       </th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rowData let-columns="columns">
-    <tr>
+  <ng-template
+    pTemplate="body"
+    let-i="rowIndex"
+    let-rowData
+    let-columns="columns"
+  >
+    <tr [routerLink]="['/formulario', i]">
       <td *ngFor="let col of columns; let i = index">
         <ng-container *ngIf="col.field === 'quantidade'; else preco">
           {{ formatQuantidade(rowData[col.field], i) }}
@@ -22,7 +23,12 @@
           </ng-container>
         </ng-template>
         <ng-template #data>
-          <ng-container *ngIf="col.field === 'dataValidade' || col.field === 'dataFabricacao'; else resto">
+          <ng-container
+            *ngIf="
+              col.field === 'dataValidade' || col.field === 'dataFabricacao';
+              else resto
+            "
+          >
             {{ formatData(rowData[col.field]) }}
           </ng-container>
         </ng-template>
